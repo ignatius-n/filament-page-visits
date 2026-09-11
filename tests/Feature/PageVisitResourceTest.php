@@ -54,6 +54,16 @@ it('can render the dedicated metrics page', function () {
     livewire(MetricsPage::class)->assertSuccessful();
 });
 
+it('defaults the metrics page slug and allows overriding it via config', function () {
+    expect(MetricsPage::getSlug())->toBe('page-visits-metrics');
+
+    config()->set('filament-page-visits.metrics_page.slug', 'custom-metrics-slug');
+
+    expect(MetricsPage::getSlug())->toBe('custom-metrics-slug');
+
+    config()->set('filament-page-visits.metrics_page.slug', 'page-visits-metrics');
+});
+
 it('renders the metrics widgets without polling', function () {
     PageVisitFactory::new()->create();
 
