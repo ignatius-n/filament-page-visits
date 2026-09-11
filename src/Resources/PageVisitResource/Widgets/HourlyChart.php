@@ -7,6 +7,8 @@ use JeffersonGoncalves\LaravelPageVisits\Models\PageVisit;
 
 class HourlyChart extends ChartWidget
 {
+    protected ?string $pollingInterval = null;
+
     public function getHeading(): ?string
     {
         return __('filament-page-visits::resources/page-visit.stats.hourly');
