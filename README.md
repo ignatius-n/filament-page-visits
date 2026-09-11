@@ -1,3 +1,9 @@
+<div class="filament-hidden">
+
+![Filament Page Visits](https://raw.githubusercontent.com/jeffersongoncalves/filament-page-visits/3.x/art/jeffersongoncalves-filament-page-visits.png)
+
+</div>
+
 # Filament Page Visits
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jeffersongoncalves/filament-page-visits.svg?style=flat-square)](https://packagist.org/packages/jeffersongoncalves/filament-page-visits)
