@@ -41,7 +41,7 @@ configured on `laravel-page-visits`' own `config/page-visits.php` (see that pack
 You can install the package via composer:
 
 ```bash
-composer require jeffersongoncalves/filament-page-visits
+composer require jeffersongoncalves/filament-page-visits:"^3.0"
 ```
 
 This pulls in `jeffersongoncalves/laravel-page-visits` (`^1.0`) as a dependency. Publish and run its migration
