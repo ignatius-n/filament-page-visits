@@ -122,8 +122,8 @@ class PageVisitResource extends Resource
                             ->label(__('filament-page-visits::resources/page-visit.filters.visited_until')),
                     ])
                     ->query(fn (Builder $query, array $data): Builder => $query
-                        ->when($data['visited_from'] ?? null, fn (Builder $q, string $date): Builder => $q->whereDate('visited_at', '>=', $date))
-                        ->when($data['visited_until'] ?? null, fn (Builder $q, string $date): Builder => $q->whereDate('visited_at', '<=', $date))),
+                        ->when($data['visited_from'] ?? null, fn (Builder $q, string $date) => $q->whereDate('visited_at', '>=', $date))
+                        ->when($data['visited_until'] ?? null, fn (Builder $q, string $date) => $q->whereDate('visited_at', '<=', $date))),
             ]);
     }
 
