@@ -2,8 +2,12 @@
 
 return [
     'navigation' => [
+        'group' => 'Visitas de Página',
         'label' => 'Visitas de Página',
         'singular' => 'Visita de Página',
+    ],
+    'metrics' => [
+        'title' => 'Métricas',
     ],
     'fields' => [
         'visited_at' => 'Visitado em',
@@ -64,6 +68,7 @@ return [
         'visits_today' => 'Visitas Hoje',
         'bot_percentage' => '% de Bots',
         'top_country' => 'País Principal',
+        'top_pages' => 'Páginas Mais Acessadas',
         'hourly' => 'Visitas por Hora (Últimas 24h)',
         'unknown' => 'Desconhecido',
     ],

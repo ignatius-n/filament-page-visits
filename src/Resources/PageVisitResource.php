@@ -8,6 +8,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use JeffersonGoncalves\Filament\PageVisits\Concerns\HasPluginNavigationGroup;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Pages\ListPageVisits;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Pages\ViewPageVisit;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Schemas\PageVisitInfolist;
@@ -16,6 +17,8 @@ use JeffersonGoncalves\LaravelPageVisits\Models\PageVisit;
 
 class PageVisitResource extends Resource
 {
+    use HasPluginNavigationGroup;
+
     protected static ?string $model = PageVisit::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedEye;
