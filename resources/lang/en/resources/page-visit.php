@@ -2,8 +2,12 @@
 
 return [
     'navigation' => [
+        'group' => 'Page Visits',
         'label' => 'Page Visits',
         'singular' => 'Page Visit',
+    ],
+    'metrics' => [
+        'title' => 'Metrics',
     ],
     'fields' => [
         'visited_at' => 'Visited At',
@@ -64,6 +68,7 @@ return [
         'visits_today' => 'Visits Today',
         'bot_percentage' => 'Bot %',
         'top_country' => 'Top Country',
+        'top_pages' => 'Top Pages',
         'hourly' => 'Visits by Hour (Last 24h)',
         'unknown' => 'Unknown',
     ],

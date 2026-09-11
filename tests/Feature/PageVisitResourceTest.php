@@ -1,10 +1,13 @@
 <?php
 
+use JeffersonGoncalves\Filament\PageVisits\FilamentPageVisitsPlugin;
+use JeffersonGoncalves\Filament\PageVisits\Pages\MetricsPage;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Pages\ListPageVisits;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Pages\ViewPageVisit;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\HourlyChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\StatsOverview;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopPages;
 use JeffersonGoncalves\Filament\PageVisits\Tests\Factories\PageVisitFactory;
 use JeffersonGoncalves\Filament\PageVisits\Tests\Factories\UserFactory;
 
@@ -45,11 +48,32 @@ it('can render the view page', function () {
     livewire(ViewPageVisit::class, ['record' => $visit->getRouteKey()])->assertSuccessful();
 });
 
-it('renders the header widgets', function () {
+it('can render the dedicated metrics page', function () {
     PageVisitFactory::new()->create();
 
-    livewire(StatsOverview::class)->assertSuccessful();
-    livewire(HourlyChart::class)->assertSuccessful();
+    livewire(MetricsPage::class)->assertSuccessful();
+});
+
+it('renders the metrics widgets without polling', function () {
+    PageVisitFactory::new()->create();
+
+    livewire(StatsOverview::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(HourlyChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(TopPages::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+});
+
+it('defaults the navigation group to the translated label and allows overriding it', function () {
+    $plugin = FilamentPageVisitsPlugin::get();
+
+    expect(PageVisitResource::getNavigationGroup())->toBe(__('filament-page-visits::resources/page-visit.navigation.group'))
+        ->and(MetricsPage::getNavigationGroup())->toBe(__('filament-page-visits::resources/page-visit.navigation.group'));
+
+    $plugin->navigationGroup('Custom Group');
+
+    expect(PageVisitResource::getNavigationGroup())->toBe('Custom Group')
+        ->and(MetricsPage::getNavigationGroup())->toBe('Custom Group');
+
+    $plugin->navigationGroup(null);
 });
 
 it('is a read-only resource', function () {

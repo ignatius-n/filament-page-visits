@@ -8,6 +8,8 @@ use JeffersonGoncalves\LaravelPageVisits\Models\PageVisit;
 
 class StatsOverview extends BaseWidget
 {
+    protected static ?string $pollingInterval = null;
+
     protected function getStats(): array
     {
         $total = PageVisit::query()->count();
