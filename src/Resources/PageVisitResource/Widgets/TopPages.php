@@ -27,6 +27,14 @@ class TopPages extends TableWidget
         return $table
             ->heading(__('filament-page-visits::resources/page-visit.stats.top_pages'))
             ->query($query)
+            // Filament appends its own ORDER BY <table>.id tiebreaker for a
+            // deterministic sort unless told not to — the raw column
+            // reference isn't in this grouped query's GROUP BY (path) or an
+            // aggregate, which Postgres rejects outright (MySQL/SQLite
+            // silently tolerate it, which is why this only surfaced in
+            // production): "column page_visits.id must appear in the GROUP
+            // BY clause or be used in an aggregate function".
+            ->defaultKeySort(false)
             ->paginated(false)
             ->columns([
                 TextColumn::make('path')
