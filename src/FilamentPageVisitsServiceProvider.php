@@ -13,6 +13,7 @@ class FilamentPageVisitsServiceProvider extends PackageServiceProvider
     {
         $package
             ->name(static::$name)
+            ->hasConfigFile()
             ->hasViews()
             ->hasTranslations();
     }

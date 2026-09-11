@@ -3,10 +3,12 @@
 namespace JeffersonGoncalves\Filament\PageVisits\Pages;
 
 use Filament\Pages\Page;
+use Filament\Panel;
 use JeffersonGoncalves\Filament\PageVisits\Concerns\HasPluginNavigationGroup;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\HourlyChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\StatsOverview;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopPages;
+use JeffersonGoncalves\Filament\PageVisits\Support\Utils;
 
 class MetricsPage extends Page
 {
@@ -16,13 +18,10 @@ class MetricsPage extends Page
 
     protected static string $view = 'filament-page-visits::pages.metrics-page';
 
-    // Filament defaults an unset slug to Str::kebab(class basename) —
-    // "metrics-page" for any package's MetricsPage class. Explicit here so
-    // this doesn't collide with another plugin's own MetricsPage at the
-    // same URL in a host panel that installs both (confirmed:
-    // jeffersongoncalves/filament-short-url ships an identically-named
-    // page — this package deliberately mirrors its pattern).
-    protected static ?string $slug = 'page-visits-metrics';
+    public static function getSlug(?Panel $panel = null): string
+    {
+        return Utils::getMetricsPageSlug();
+    }
 
     public function getTitle(): string
     {
