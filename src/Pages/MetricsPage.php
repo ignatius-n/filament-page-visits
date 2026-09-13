@@ -8,6 +8,7 @@ use JeffersonGoncalves\Filament\PageVisits\Concerns\HasPluginNavigationGroup;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\BrowsersChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\DevicesChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\HourlyChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\LongTermTrendChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\OperatingSystemsChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\RefererTypesChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\SecurityOverview;
@@ -50,6 +51,7 @@ class MetricsPage extends Page
             Utils::isMetricsWidgetEnabled('security_overview') ? SecurityOverview::class : null,
             Utils::isMetricsWidgetEnabled('hourly_chart') ? HourlyChart::class : null,
             Utils::isMetricsWidgetEnabled('traffic_trend') ? TrafficTrendChart::class : null,
+            Utils::isMetricsWidgetEnabled('long_term_trend') ? LongTermTrendChart::class : null,
             Utils::isMetricsWidgetEnabled('devices_chart') ? DevicesChart::class : null,
             Utils::isMetricsWidgetEnabled('browsers_chart') ? BrowsersChart::class : null,
             Utils::isMetricsWidgetEnabled('operating_systems_chart') ? OperatingSystemsChart::class : null,

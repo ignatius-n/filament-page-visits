@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use JeffersonGoncalves\Filament\PageVisits\FilamentPageVisitsPlugin;
 use JeffersonGoncalves\Filament\PageVisits\Pages\MetricsPage;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource;
@@ -8,6 +9,7 @@ use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Pages\Vie
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\BrowsersChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\DevicesChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\HourlyChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\LongTermTrendChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\OperatingSystemsChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\RefererTypesChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\SecurityOverview;
@@ -81,6 +83,7 @@ it('renders the metrics widgets without polling', function () {
     livewire(SecurityOverview::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
     livewire(HourlyChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
     livewire(TrafficTrendChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(LongTermTrendChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
     livewire(DevicesChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
     livewire(BrowsersChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
     livewire(OperatingSystemsChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
@@ -100,6 +103,7 @@ it('renders every metrics widget by default', function () {
         SecurityOverview::class,
         HourlyChart::class,
         TrafficTrendChart::class,
+        LongTermTrendChart::class,
         DevicesChart::class,
         BrowsersChart::class,
         OperatingSystemsChart::class,
@@ -110,6 +114,14 @@ it('renders every metrics widget by default', function () {
         TopCountries::class,
         TopAsn::class,
     ]);
+});
+
+it('hides the long-term trend widget when page_visit_daily_stats does not exist', function () {
+    Schema::drop(config('page-visits.daily_stats_table', 'page_visit_daily_stats'));
+
+    $page = new MetricsPage;
+
+    expect($page->getVisibleHeaderWidgets())->not->toContain(LongTermTrendChart::class);
 });
 
 it('can disable individual metrics widgets via config', function () {
@@ -124,6 +136,7 @@ it('can disable individual metrics widgets via config', function () {
         SecurityOverview::class,
         HourlyChart::class,
         TrafficTrendChart::class,
+        LongTermTrendChart::class,
         BrowsersChart::class,
         OperatingSystemsChart::class,
         StatusCodesChart::class,

@@ -45,11 +45,15 @@ presentation layer (a Resource, Pages, widgets) built on top of the core's `Page
   code, device, browser, OS, country, referer type, bot flag), with a detail view grouped into Request, Device,
   Location, Referer & UTM, Bot/Risk flags and Fingerprint sections. The resource is intentionally read-only
   (no create, edit or delete) — visits are an append-only audit log written by the core package.
-- **A dedicated Metrics page** with 13 toggleable widgets:
+- **A dedicated Metrics page** with 14 toggleable widgets:
   - `StatsOverview` — total visits, visits today, bot %, top country.
   - `SecurityOverview` — VPN / Proxy / Tor / Datacenter %.
   - `HourlyChart` — visits per hour (last 24h).
   - `TrafficTrendChart` — visits per day (last 14 days).
+  - `LongTermTrendChart` — visits per day (last 90 days), read from `laravel-page-visits` 1.1.0+'s
+    `page_visit_daily_stats` aggregate table so it stays accurate even after raw `page_visits` rows are pruned by
+    `page-visits:aggregate-and-prune`. Auto-hides itself on older `laravel-page-visits` installs that don't have
+    that table yet.
   - `DevicesChart`, `BrowsersChart`, `OperatingSystemsChart` — device / browser / OS breakdown.
   - `StatusCodesChart` — 2xx/3xx/4xx/5xx breakdown.
   - `RefererTypesChart` — direct / search / social / unknown breakdown.

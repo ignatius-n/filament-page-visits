@@ -71,6 +71,7 @@ return [
         'top_pages' => 'Top Pages',
         'hourly' => 'Visits by Hour (Last 24h)',
         'traffic_trend' => 'Traffic Trend (Last 14 Days)',
+        'long_term_trend' => 'Long-Term Trend (Last 90 Days)',
         'devices' => 'Devices',
         'browsers' => 'Browsers',
         'operating_systems' => 'Operating Systems',
