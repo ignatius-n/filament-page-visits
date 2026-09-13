@@ -7,9 +7,19 @@ use Filament\Pages\Page;
 use Filament\Panel;
 use Filament\Support\Icons\Heroicon;
 use JeffersonGoncalves\Filament\PageVisits\Concerns\HasPluginNavigationGroup;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\BrowsersChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\DevicesChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\HourlyChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\OperatingSystemsChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\RefererTypesChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\SecurityOverview;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\StatsOverview;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\StatusCodesChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopAsn;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopCountries;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopPages;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopReferrers;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TrafficTrendChart;
 use JeffersonGoncalves\Filament\PageVisits\Support\Utils;
 
 class MetricsPage extends Page
@@ -35,16 +45,26 @@ class MetricsPage extends Page
 
     protected function getHeaderWidgets(): array
     {
-        return [
-            StatsOverview::class,
-            HourlyChart::class,
-        ];
+        return array_values(array_filter([
+            Utils::isMetricsWidgetEnabled('stats_overview') ? StatsOverview::class : null,
+            Utils::isMetricsWidgetEnabled('security_overview') ? SecurityOverview::class : null,
+            Utils::isMetricsWidgetEnabled('hourly_chart') ? HourlyChart::class : null,
+            Utils::isMetricsWidgetEnabled('traffic_trend') ? TrafficTrendChart::class : null,
+            Utils::isMetricsWidgetEnabled('devices_chart') ? DevicesChart::class : null,
+            Utils::isMetricsWidgetEnabled('browsers_chart') ? BrowsersChart::class : null,
+            Utils::isMetricsWidgetEnabled('operating_systems_chart') ? OperatingSystemsChart::class : null,
+            Utils::isMetricsWidgetEnabled('status_codes_chart') ? StatusCodesChart::class : null,
+            Utils::isMetricsWidgetEnabled('referer_types_chart') ? RefererTypesChart::class : null,
+        ]));
     }
 
     protected function getFooterWidgets(): array
     {
-        return [
-            TopPages::class,
-        ];
+        return array_values(array_filter([
+            Utils::isMetricsWidgetEnabled('top_pages') ? TopPages::class : null,
+            Utils::isMetricsWidgetEnabled('top_referrers') ? TopReferrers::class : null,
+            Utils::isMetricsWidgetEnabled('top_countries') ? TopCountries::class : null,
+            Utils::isMetricsWidgetEnabled('top_asn') ? TopAsn::class : null,
+        ]));
     }
 }

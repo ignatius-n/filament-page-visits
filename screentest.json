@@ -1,0 +1,76 @@
+{
+    "plugin": {
+        "name": "Filament Page Visits",
+        "package": "jeffersongoncalves/filament-page-visits"
+    },
+    "filakit": {
+        "kit": "filakitphp/basev5"
+    },
+    "install": {
+        "extra_packages": [],
+        "plugins": [
+            {
+                "class": "JeffersonGoncalves\\Filament\\PageVisits\\FilamentPageVisitsPlugin",
+                "panel": "admin"
+            }
+        ],
+        "publish": [
+            "page-visits-migrations"
+        ],
+        "post_install_commands": [
+            "migrate"
+        ],
+        "env": []
+    },
+    "seed": {
+        "auto_detect": true,
+        "user": {
+            "email": "admin@example.com",
+            "password": "password",
+            "name": "Admin User"
+        },
+        "models": [
+            {
+                "model": "JeffersonGoncalves\\LaravelPageVisits\\Models\\PageVisit",
+                "count": 10
+            }
+        ]
+    },
+    "screenshots": [
+        {
+            "name": "page-visit-list",
+            "url": "/admin/page-visits"
+        },
+        {
+            "name": "page-visit-view",
+            "url": "/admin/page-visits/1"
+        },
+        {
+            "name": "metrics-page",
+            "url": "/admin/page-visits-metrics",
+            "fullPage": true,
+            "before": [
+                {
+                    "action": "scrollToBottom"
+                },
+                {
+                    "action": "wait",
+                    "delay": 2000
+                }
+            ]
+        }
+    ],
+    "output": {
+        "directory": "screenshots",
+        "themes": [
+            "light",
+            "dark"
+        ],
+        "format": "png"
+    },
+    "readme": {
+        "update": true,
+        "section_marker": "<!-- SCREENSHOTS -->",
+        "template": "table"
+    }
+}

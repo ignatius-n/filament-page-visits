@@ -5,9 +5,19 @@ use JeffersonGoncalves\Filament\PageVisits\Pages\MetricsPage;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Pages\ListPageVisits;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Pages\ViewPageVisit;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\BrowsersChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\DevicesChart;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\HourlyChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\OperatingSystemsChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\RefererTypesChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\SecurityOverview;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\StatsOverview;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\StatusCodesChart;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopAsn;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopCountries;
 use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopPages;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TopReferrers;
+use JeffersonGoncalves\Filament\PageVisits\Resources\PageVisitResource\Widgets\TrafficTrendChart;
 use JeffersonGoncalves\Filament\PageVisits\Tests\Factories\PageVisitFactory;
 use JeffersonGoncalves\Filament\PageVisits\Tests\Factories\UserFactory;
 
@@ -68,8 +78,63 @@ it('renders the metrics widgets without polling', function () {
     PageVisitFactory::new()->create();
 
     livewire(StatsOverview::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(SecurityOverview::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
     livewire(HourlyChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(TrafficTrendChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(DevicesChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(BrowsersChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(OperatingSystemsChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(StatusCodesChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(RefererTypesChart::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
     livewire(TopPages::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(TopReferrers::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(TopCountries::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+    livewire(TopAsn::class)->assertSuccessful()->assertDontSee('wire:poll', escape: false);
+});
+
+it('renders every metrics widget by default', function () {
+    $page = new MetricsPage;
+
+    expect([...$page->getVisibleHeaderWidgets(), ...$page->getVisibleFooterWidgets()])->toEqualCanonicalizing([
+        StatsOverview::class,
+        SecurityOverview::class,
+        HourlyChart::class,
+        TrafficTrendChart::class,
+        DevicesChart::class,
+        BrowsersChart::class,
+        OperatingSystemsChart::class,
+        StatusCodesChart::class,
+        RefererTypesChart::class,
+        TopPages::class,
+        TopReferrers::class,
+        TopCountries::class,
+        TopAsn::class,
+    ]);
+});
+
+it('can disable individual metrics widgets via config', function () {
+    config()->set('filament-page-visits.metrics_page.widgets.devices_chart', false);
+    config()->set('filament-page-visits.metrics_page.widgets.top_referrers', false);
+    config()->set('filament-page-visits.metrics_page.widgets.top_asn', false);
+
+    $page = new MetricsPage;
+
+    expect([...$page->getVisibleHeaderWidgets(), ...$page->getVisibleFooterWidgets()])->toEqualCanonicalizing([
+        StatsOverview::class,
+        SecurityOverview::class,
+        HourlyChart::class,
+        TrafficTrendChart::class,
+        BrowsersChart::class,
+        OperatingSystemsChart::class,
+        StatusCodesChart::class,
+        RefererTypesChart::class,
+        TopPages::class,
+        TopCountries::class,
+    ]);
+
+    config()->set('filament-page-visits.metrics_page.widgets.devices_chart', true);
+    config()->set('filament-page-visits.metrics_page.widgets.top_referrers', true);
+    config()->set('filament-page-visits.metrics_page.widgets.top_asn', true);
 });
 
 it('defaults the navigation group to the translated label and allows overriding it', function () {
