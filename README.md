@@ -29,18 +29,55 @@ presentation layer (a Resource, Pages, widgets) built on top of the core's `Page
 > `laravel-page-visits` requires Laravel 12 or 13 (`illuminate/contracts: ^12.0|^13.0`) on every branch — see the
 > note below if a given Filament major doesn't hold up against that floor in practice.
 
+## Screenshots
+
+<!-- SCREENSHOTS -->
+| Screenshot | Light | Dark |
+|---|---|---|
+| Page visit list | ![page-visit-list](screenshots/light/page-visit-list.png) | ![page-visit-list](screenshots/dark/page-visit-list.png) |
+| Page visit view | ![page-visit-view](screenshots/light/page-visit-view.png) | ![page-visit-view](screenshots/dark/page-visit-view.png) |
+| Metrics page | ![metrics-page](screenshots/light/metrics-page.png) | ![metrics-page](screenshots/dark/metrics-page.png) |
+<!-- SCREENSHOTS -->
+
 ## What's included
 
 - **`PageVisitResource`** — a browsable, filterable list of tracked visits (date/time, path, method, status
   code, device, browser, OS, country, referer type, bot flag), with a detail view grouped into Request, Device,
   Location, Referer & UTM, Bot/Risk flags and Fingerprint sections. The resource is intentionally read-only
   (no create, edit or delete) — visits are an append-only audit log written by the core package.
-- **`StatsOverview`** — total visits, visits today, bot %, top country.
-- **`HourlyChart`** — visits per hour for the last 24h.
+- **A dedicated Metrics page** with 13 toggleable widgets:
+  - `StatsOverview` — total visits, visits today, bot %, top country.
+  - `SecurityOverview` — VPN / Proxy / Tor / Datacenter %.
+  - `HourlyChart` — visits per hour (last 24h).
+  - `TrafficTrendChart` — visits per day (last 14 days).
+  - `DevicesChart`, `BrowsersChart`, `OperatingSystemsChart` — device / browser / OS breakdown.
+  - `StatusCodesChart` — 2xx/3xx/4xx/5xx breakdown.
+  - `RefererTypesChart` — direct / search / social / unknown breakdown.
+  - `TopPages`, `TopReferrers`, `TopCountries`, `TopAsn` — top-10 tables (ASN/ISP included).
 - pt_BR and en translations.
 
-This plugin has **no config file of its own** — table name, tracked fields, excluded paths and retention are all
-configured on `laravel-page-visits`' own `config/page-visits.php` (see that package's README).
+Publish `config/filament-page-visits.php` to change the metrics page slug or turn individual widgets off — useful
+on installs with a huge `page_visits` table where a given widget's query is too costly to run on every load:
+
+```bash
+php artisan vendor:publish --tag="filament-page-visits-config"
+```
+
+```php
+return [
+    'metrics_page' => [
+        'slug' => 'page-visits-metrics',
+        'widgets' => [
+            'stats_overview' => true,
+            // ...
+            'top_asn' => false, // turn off any widget you don't need
+        ],
+    ],
+];
+```
+
+Table name, tracked fields, excluded paths and retention are configured separately, on `laravel-page-visits`' own
+`config/page-visits.php` (see that package's README).
 
 ## Installation
 

@@ -8,4 +8,9 @@ class Utils
     {
         return (string) config('filament-page-visits.metrics_page.slug', 'page-visits-metrics');
     }
+
+    public static function isMetricsWidgetEnabled(string $key): bool
+    {
+        return (bool) config("filament-page-visits.metrics_page.widgets.{$key}", true);
+    }
 }
